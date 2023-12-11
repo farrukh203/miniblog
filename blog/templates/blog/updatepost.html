@@ -1,0 +1,44 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% block title %} Dashboard {% endblock title %}
+
+{% block content %}
+    {% if messages %}
+    {% for message in messages %}
+
+        <div {% if message.tags %} class="alert alert-{{message.tags}} alert-dismissible fade show" 
+        {% endif %}>
+        <strong> {{message}} </strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+
+    {% endfor %}
+    {% endif %}
+
+    <h3 class="text-white my-5">Dashboard/ Update Post</h3>
+
+    <form action="" method="post" novalidate>
+        {% csrf_token %}
+        {% if form %}
+        {% for fm in form %}
+            <div class="form-group my-2">
+                {{fm.label_tag}} {{fm}}
+                {% for err in fm.errors %}
+                    <small class="text-warning">{{err}}</small>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        {% endif %}
+        <div class="form-group my-2">
+            <button type="submit" class="btn btn-success">Update Post</button>
+        </div>
+        {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+        <p class="alert alert-danger">{{error}}</p>
+        {% endfor %}
+        {% endif %}
+    </form>
+    
+{% endblock content %}
